@@ -45,12 +45,10 @@ function runPython() {
     outputDiv.innerHTML = "";  // Clear previous output
 
     // Execute the Python code using Brython
-    var runCode = `
-        ${code}
-    `;
-    brython({debug: 1}).eval(runCode);
+    __BRYTHON__.runPy(code);
 }
 </script>
 
 </body>
 </html>
+
