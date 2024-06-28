@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proxy Browser</title>
+</head>
+<body>
+<h1>Proxy Browser</h1>
+
+<!-- URL入力フォーム -->
+<form id="proxyForm">
+    <input type="url" id="urlInput" placeholder="URLを入力してください">
+    <button type="submit">アクセスする</button>
+</form>
+
+<!-- JavaScript -->
+<script>
+// フォームのサブミット時の処理
+document.getElementById("proxyForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const url = document.getElementById("urlInput").value;
+    if (url) {
+        window.location.href = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+    }
+});
+</script>
+
+</body>
+</html>
