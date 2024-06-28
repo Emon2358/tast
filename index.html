@@ -3,27 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Proxy Browser</title>
+<title>Brython Code Editor with Output</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/python/python.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.9.5/brython.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.9.5/brython_stdlib.min.js"></script>
 </head>
-<body>
-<h1>Proxy Browser</h1>
+<body onload="setupEditor(); brython()">
 
-<!-- URL入力フォーム -->
-<form id="proxyForm">
-    <input type="url" id="urlInput" placeholder="URLを入力してください">
-    <button type="submit">アクセスする</button>
-</form>
+<h2>Python Code Editor with Output</h2>
 
-<!-- JavaScript -->
+<textarea id="code" rows="10" cols="50">
+from browser import document, console
+
+def display_message():
+    console.log('Hello from Python using Brython!')
+    document['output'].text = 'Hello from Python using Brython!'
+
+# 初期表示用に実行
+display_message()
+</textarea><br>
+
+<button onclick="runPython()">Run Python Code</button>
+
+<div id="output"></div>
+
 <script>
-// フォームのサブミット時の処理
-document.getElementById("proxyForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const url = document.getElementById("urlInput").value;
-    if (url) {
-        window.location.href = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
-    }
-});
+var editor;
+
+function setupEditor() {
+    editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        lineNumbers: true,
+        mode: "python"
+    });
+}
+
+function runPython() {
+    var code = editor.getValue();
+    var outputDiv = document.getElementById("output");
+    outputDiv.innerHTML = "";  // Clear previous output
+
+    // Execute the Python code using Brython
+    var runCode = `
+        ${code}
+    `;
+    brython({debug: 1}).eval(runCode);
+}
 </script>
 
 </body>
